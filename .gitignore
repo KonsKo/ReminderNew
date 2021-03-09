@@ -39,3 +39,4 @@ Thumbs.db
 
 #
 **/migrations
+**/__pycache__
