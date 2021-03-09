@@ -1,0 +1,203 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block content %}
+
+<script crossorigin="anonymous"
+        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="{% static 'js/jquery.bootstrap.modal.forms.js' %}"></script>
+
+
+<div aria-hidden="true" class="modal fade" id="create-modal" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+<div class="row justify-content-center">
+    <div class="col-10 justify-content-center">
+
+        <h3 class="row justify-content-center p-4">Welcome {{ user.first_name }} to your reminders!</h3>
+        <hr>
+        <div class="row">
+            <div class="col-lg-2">
+                <h5 class="text-success">Active reminders:</h5>
+            </div>
+            <div class="col-lg-6">
+                <button class="btn btn-success" id="create-rem" name="button" type="button">Create new reminder</button>
+            </div>
+        </div>
+        <hr>
+
+        <table class="table table-condensed table-striped" name="active">
+            <thead>
+            <tr>
+                <th scope="col" style="width: 2%">#</th>
+                <th scope="col" style="width: 10%">Title</th>
+                <th scope="col" style="width: 20%">Text</th>
+                <th scope="col" style="width: 23%">Day of week</th>
+                <th scope="col" style="width: 10%">Start</th>
+                <th scope="col" style="width: 10%">Finish</th>
+                <th scope="col" style="width: 10%">Time</th>
+                <th scope="col" style="width: 15%"></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for reminder in rem_list_active %}
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{ reminder.title }}</td>
+            <td>{{ reminder.text }}</td>
+            <td>
+                {% for day in reminder.day_of_week.all %}
+                {{ day }},
+                {% endfor %}
+            </td>
+            <td>{{ reminder.date_start }}</td>
+            <td>{{ reminder.date_finish }}</td>
+            <td>{{ reminder.time_reminder }}</td>
+            <td>
+                <button class="btn btn-sm btn-info" id="{{ reminder.id }}"
+                        name="to_archive" type="button">Go to archive
+                </button>
+            </td>
+
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <hr>
+        <div class="row justify-content-center">
+            <div class="col-md-3">
+                <div class="card border-left-success shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                    You have active reminders:
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                    {{ rem_list_active|length }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card border-left-info shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                    You have archived reminders:
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                    {{ rem_list_archive|length }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card border-left-warning shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                    Total lost reminders:
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                    ###
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <br>
+        <h5 class="text-info">Archived reminders:</h5>
+
+        <table class="table" name="archive">
+            <thead>
+            <tr>
+                <th scope="col" style="width: 2%">#</th>
+                <th scope="col" style="width: 10%">Title</th>
+                <th scope="col" style="width: 20%">Text</th>
+                <th scope="col" style="width: 23%">Day of week</th>
+                <th scope="col" style="width: 10%">Start</th>
+                <th scope="col" style="width: 10%">Finish</th>
+                <th scope="col" style="width: 10%">Time</th>
+                <th scope="col" style="width: 15%"></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for reminder in rem_list_archive %}
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{ reminder.title }}</td>
+            <td>{{ reminder.text }}</td>
+            <td>
+                {% for day in reminder.day_of_week.all %}
+                {{ day }},
+                {% endfor %}
+            </td>
+            <td>{{ reminder.date_start }}</td>
+            <td>{{ reminder.date_finish }}</td>
+            <td>{{ reminder.time_reminder }}</td>
+            <td>
+                <button class="btn btn-sm btn-success" id="{{ reminder.id }}"
+                        name="to_active" type="button">Go to active
+                </button>
+            </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <hr>
+
+        <hr>
+
+        <hr>
+    </div>
+</div>
+
+<script type="text/javascript">
+  $(function () {
+
+    $("#create-rem").modalForm({
+        formURL: "{% url 'create_rem' %}",
+        modalID: "#create-modal"
+    });
+
+  });
+
+</script>
+
+<script>
+    $("button:not(#create-rem,#example1)").click(function() {
+
+        const rem_id = this.id;
+        const action = this.name;
+        $.ajax ({
+        url : '/reminder/ajax-change-status',
+        data: {
+                'rem_id': rem_id,
+                'action': action,
+            },
+        success: function (data) {
+                setTimeout(function(){
+                location.reload();
+                }, 500);
+            }
+        });
+    });
+</script>
+
+
+{% endblock %}
