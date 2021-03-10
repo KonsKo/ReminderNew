@@ -4,11 +4,11 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
-from bootstrap_modal_forms.generic import BSModalCreateView
+from bootstrap_modal_forms.generic import BSModalCreateView, BSModalUpdateView
 
 import datetime
 
-from .forms import CreateRemForm
+from .forms import CreateRemForm, RemModelForm
 from .models import Reminder
 
 
@@ -40,3 +40,10 @@ def change_status(request):
     reminder.save()
     return render(request, 'myrem/home_new.html')
 
+
+class UpdateRemView(BSModalUpdateView):
+    model = Reminder
+    template_name = 'myrem/update_rem.html'
+    form_class = RemModelForm
+    success_url = reverse_lazy('home')
+    success_message = 'Success: reminder has been updated!'

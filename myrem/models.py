@@ -13,11 +13,12 @@ class Reminder(models.Model):
     STATUS = (
         (1, 'Active'),
         (2, 'Archived'),
+        (3, 'Deleted'),
     )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=64)
     text = models.CharField(max_length=256)
-    date_create = models.DateTimeField(auto_now_add=True)
+    date_create = models.DateTimeField(auto_now_add=True, verbose_name="Reminder was created")
     date_start = models.DateField()
     date_finish = models.DateField()
     time_reminder = models.TimeField()
@@ -25,7 +26,7 @@ class Reminder(models.Model):
     status = models.IntegerField(choices=STATUS, default=1)
 
     def __str__(self):
-        return self.title
+        return r'{} --> {}'.format(self.title, dict(self.STATUS).get(self.status))
 
 
 class ReminderLog(models.Model):

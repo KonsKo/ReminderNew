@@ -5,8 +5,8 @@
     {% csrf_token %}
 
     <div class="modal-header">
-        <h3 class="modal-title">Create Reminder</h3>
-        <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+        <h3 class="modal-title">Update Reminder</h3>
+        <button id="closePop" aria-label="Close" class="close" data-dismiss="modal" type="button">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
@@ -28,6 +28,8 @@
             {% render_field field class="form-control" type="date" placeholder=field.label %}
             {% elif 'Time' in field.label %}
             {% render_field field class="form-control" type="time" placeholder=field.label %}
+            {% elif 'Status' in field.label or 'week' in field.label %}
+            {% render_field field class="form-select" %}
             {% else %}
             {% render_field field class="form-control" placeholder=field.label %}
             {% endif %}
@@ -46,8 +48,9 @@
     </div>
 
     <div class="modal-footer">
-        <button class="btn btn-primary" type="submit">Create</button>
+        <button class="btn btn-primary" type="submit">Update</button>
     </div>
+
 </form>
 
 <script src="{% static 'myrem/js/rem.js' %}"></script>

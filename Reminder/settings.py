@@ -131,3 +131,5 @@ LOGIN_REDIRECT_URL = '/reminder/home'
 LOGOUT_REDIRECT_URL = '/login'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+APPEND_SLASH=False

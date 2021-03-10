@@ -17,6 +17,15 @@
         </div>
     </div>
 </div>
+
+<!-- Modal 2 with id="modal" -->
+<div class="modal fade" tabindex="-1" role="dialog" id="modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content"></div>
+  </div>
+</div>
+
+
 <div class="row justify-content-center">
     <div class="col-10 justify-content-center">
 
@@ -60,7 +69,11 @@
             <td>{{ reminder.time_reminder }}</td>
             <td>
                 <button class="btn btn-sm btn-info" id="{{ reminder.id }}"
-                        name="to_archive" type="button">Go to archive
+                        name="to_archive" type="button" value="change-status">Go to archive
+                </button>
+                <button class="update-rem btn btn-sm btn-dark"
+                        data-form-url="{% url 'update_rem' reminder.pk %}"
+                         type="button" >Update
                 </button>
             </td>
 
@@ -124,7 +137,7 @@
         <br>
         <h5 class="text-info">Archived reminders:</h5>
 
-        <table class="table" name="archive">
+        <table class="table table-condensed table-striped" name="archive">
             <thead>
             <tr>
                 <th scope="col" style="width: 2%">#</th>
@@ -151,8 +164,9 @@
             <td>{{ reminder.date_finish }}</td>
             <td>{{ reminder.time_reminder }}</td>
             <td>
-                <button class="btn btn-sm btn-success" id="{{ reminder.id }}"
-                        name="to_active" type="button">Go to active
+                <button class="update-rem btn btn-sm btn-dark"
+                        data-form-url="{% url 'update_rem' reminder.pk %}"
+                         type="button" >Update
                 </button>
             </td>
             </tr>
@@ -167,37 +181,7 @@
     </div>
 </div>
 
-<script type="text/javascript">
-  $(function () {
-
-    $("#create-rem").modalForm({
-        formURL: "{% url 'create_rem' %}",
-        modalID: "#create-modal"
-    });
-
-  });
-
-</script>
-
-<script>
-    $("button:not(#create-rem,#example1)").click(function() {
-
-        const rem_id = this.id;
-        const action = this.name;
-        $.ajax ({
-        url : '/reminder/ajax-change-status',
-        data: {
-                'rem_id': rem_id,
-                'action': action,
-            },
-        success: function (data) {
-                setTimeout(function(){
-                location.reload();
-                }, 500);
-            }
-        });
-    });
-</script>
+<script src="{% static 'myrem/js/rem.js' %}"></script>
 
 
 {% endblock %}
