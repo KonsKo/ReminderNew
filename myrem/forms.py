@@ -1,4 +1,5 @@
 from django import forms
+from django.core.exceptions import ValidationError
 
 from bootstrap_modal_forms.forms import BSModalModelForm, PopRequestMixin, CreateUpdateAjaxMixin
 
@@ -12,16 +13,13 @@ class CreateRemForm(PopRequestMixin, CreateUpdateAjaxMixin, forms.ModelForm):
         model = Reminder
         exclude = ['user', 'status',]
 
-    def clean(self):
-        super().clean()
+    '''def clean(self):
+        super(CreateRemForm, self).clean()
         start = self.cleaned_data['date_start']
         finish = self.cleaned_data['date_finish']
         now = datetime.datetime.now().date()
-        if finish < start:
-            raise forms.ValidationError('Date finish has to be grater date start.')
         if start < now or finish < now:
-            raise forms.ValidationError('Both dates have to be grater current date')
-
+            raise ValidationError('Both dates have to be grater current date.')'''
 
     def save(self, commit=False):
         if not self.request.is_ajax():
@@ -41,12 +39,5 @@ class RemModelForm(BSModalModelForm):
         model = Reminder
         exclude = ['user', 'date_create',]
 
-    def clean(self):
-        super().clean()
-        start = self.cleaned_data['date_start']
-        finish = self.cleaned_data['date_finish']
-        now = datetime.datetime.now().date()
-        if finish < start:
-            raise forms.ValidationError('Date finish has to be grater date start.')
-        if start < now or finish < now:
-            raise forms.ValidationError('Both dates have to be grater current date')
+
+
