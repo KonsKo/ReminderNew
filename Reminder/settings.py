@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     'bootstrap_modal_forms',
     'widget_tweaks',
+    'django_celery_beat',
+    'django_celery_results',
 
     'myrem',
 ]
@@ -132,4 +134,8 @@ LOGOUT_REDIRECT_URL = '/login/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-APPEND_SLASH=False
+APPEND_SLASH = False
+
+CELERY_RESULT_BACKEND = "django-db"
+
+CELERY_TIMEZONE = 'Europe/Moscow'

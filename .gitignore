@@ -37,6 +37,8 @@
 ehthumbs.db
 Thumbs.db
 
+django
+
 #
 **/migrations
 **/__pycache__

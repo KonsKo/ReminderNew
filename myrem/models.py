@@ -84,5 +84,5 @@ class ReminderLog(models.Model):
     status = models.CharField(max_length=10, choices=STATUS)
 
     def __str__(self):
-        return r'{},{},{}'.format(self.reminder.title, self.date, self.status)
+        return r'{} ,{} ,{}'.format(self.reminder.title, self.date, self.status)
 
