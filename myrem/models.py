@@ -1,8 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
-
-import datetime
+from django.utils import timezone
 
 
 User = get_user_model()
@@ -32,19 +31,23 @@ class Reminder(models.Model):
     def __str__(self):
         return r'{} --> {}'.format(self.title, dict(self.STATUS).get(self.status))
 
-    @classmethod
-    def from_db(cls, db, field_names, values):
-        instance = super().from_db(db, field_names, values)
-        instance._loaded_values = dict(zip(field_names, values))
-        return instance
+    # Method that I used for studying purpose, I do not use anymore but leave here
+    # @classmethod
+    # def from_db(cls, db, field_names, values):
+    #     instance = super().from_db(db, field_names, values)
+    #     instance._loaded_values = dict(zip(field_names, values))
+    #     return instance
 
     def clean(self):
         super(Reminder, self).clean()
+        if self.pk:
+            old_status = Reminder.objects.get(pk=self.pk).status
+        new_status = self.status
         start = self.date_start
         finish = self.date_finish
-        now = datetime.datetime.now().date()
+        now = timezone.now().date()
 
-        # Target that I followed for this checks - understand method
+        # Target that I followed for this checks is understand method above
         # (there are extra unnecessary conditions for real project)
         # If we always will check date start: it is inconvenient while updating active reminder
 
@@ -65,7 +68,7 @@ class Reminder(models.Model):
 
         # If we are updating Reminder from Archived to Active than Date start has to be grater current date,
         elif not self._state.adding:
-            if self._loaded_values['status'] == 2 and self.status == 1:
+            if old_status == 2 and new_status == 1:
                 if start < now:
                     raise ValidationError('Updating: Date start has to be grater current date.')
 

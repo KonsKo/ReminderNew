@@ -125,10 +125,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-LOGIN_URL = '/login'
+LOGIN_URL = '/login/'
 
-LOGIN_REDIRECT_URL = '/reminder/home'
-LOGOUT_REDIRECT_URL = '/login'
+LOGIN_REDIRECT_URL = '/reminder/home/'
+LOGOUT_REDIRECT_URL = '/login/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
