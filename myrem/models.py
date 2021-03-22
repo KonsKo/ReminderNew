@@ -74,15 +74,14 @@ class Reminder(models.Model):
 
 
 class ReminderLog(models.Model):
-    STATUS=(
-        ('s', 'success'),
-        ('f', 'fail'),
+    STATUS = (
+        ('success', 'success'),
+        ('fail', 'fail'),
     )
-
     reminder = models.ForeignKey(Reminder, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=10, choices=STATUS)
 
     def __str__(self):
-        return r'{} ,{} ,{}'.format(self.reminder.title, self.date, self.status)
+        return r'{}, {}, {}'.format(self.reminder.title, self.date, self.status)
 

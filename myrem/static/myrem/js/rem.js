@@ -29,6 +29,11 @@ $(function () {
         $(this).modalForm({formURL: $(this).data("form-url")});
     });
 
+    // Read reminder
+    $(".read-rem").each(function () {
+        $(this).modalForm({formURL: $(this).data("form-url")});
+    });
+
     // Create reminder "
     $("#create-rem").modalForm({
         formURL: '/reminder/create/',

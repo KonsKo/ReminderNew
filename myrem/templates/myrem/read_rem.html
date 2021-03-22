@@ -1,0 +1,50 @@
+{% load widget_tweaks %}
+{% load static %}
+
+<div class="modal-header">
+    <h3 class="modal-title">Reminder logs</h3>
+    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<div class="modal-body">
+    <h5>
+        Reminder: <strong>"{{ reminder.title }}" </strong>
+        from <i>{{ reminder.date_start }}</i> to <i>{{ reminder.date_finish }}</i>
+    </h5>
+    <h5>
+        Created: {{ reminder.date_create }}
+    </h5>
+    <hr>
+    <div>
+        {% if logs %}
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col" style="width: 5%">#</th>
+                <th scope="col" style="width: 45%">Date</th>
+                <th scope="col" style="width: 50%">Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for log in logs %}
+            <tr>
+                <td> {{ forloop.counter }}</td>
+                <td> {{ log.date }}</td>
+                <td> {{ log.status }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <h6 class="text text-danger"> There are no history logs for this reminder </h6>
+        {% endif %}
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="close btn btn-default" data-dismiss="modal" type="button">Close</button>
+</div>
+
+<script src="{% static 'myrem/js/rem.js' %}"></script>

@@ -4,12 +4,10 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
-from bootstrap_modal_forms.generic import BSModalCreateView, BSModalUpdateView
-
-import datetime
+from bootstrap_modal_forms.generic import BSModalCreateView, BSModalUpdateView, BSModalReadView
 
 from .forms import CreateRemForm, RemModelForm
-from .models import Reminder
+from .models import Reminder, ReminderLog
 
 
 @method_decorator(login_required, name='dispatch')
@@ -18,7 +16,6 @@ class HomeView(TemplateView):
 
     def get_context_data(self, **kwargs):
         user = self.request.user
-        now = datetime.datetime.now()
         kwargs['rem_list_active'] = Reminder.objects.filter(user=user).filter(status=1)
         kwargs['rem_list_archive'] = Reminder.objects.filter(user=user).filter(status=2)
         return kwargs
@@ -47,3 +44,15 @@ class UpdateRemView(BSModalUpdateView):
     form_class = RemModelForm
     success_url = reverse_lazy('home')
     success_message = 'Success: reminder has been updated!'
+
+
+class ReadRemView(BSModalReadView):
+    model = Reminder
+    template_name = 'myrem/read_rem.html'
+
+    def get_context_data(self, **kwarg):
+        context = super().get_context_data(**kwarg)
+        context['logs'] = context['reminder'].reminderlog_set.all()
+        return context
+
+

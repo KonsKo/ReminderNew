@@ -19,9 +19,9 @@ app.conf.beat_scheduler = 'django_celery_beat.schedulers.DatabaseScheduler'
 
 app.conf.beat_schedule = {
     'reminder_every_day_crontab': {
-        'task': 'loop_over_reminders',
+        'task': 'do_remind',
         'schedule': crontab(
-            minute='*',
+            minute='0',
             hour='*',
             day_of_week='*',
             day_of_month='*',
