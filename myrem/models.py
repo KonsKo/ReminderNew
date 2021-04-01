@@ -24,7 +24,7 @@ class Reminder(models.Model):
     date_create = models.DateTimeField(auto_now_add=True, verbose_name="Reminder was created")
     date_start = models.DateField()
     date_finish = models.DateField()
-    time_reminder = models.TimeField()
+    time_reminder = models.TimeField(blank=True, null=True)
     day_of_week = models.ManyToManyField(DayOfWeek)
     status = models.IntegerField(choices=STATUS, default=1)
 
@@ -51,15 +51,17 @@ class Reminder(models.Model):
         # (there are extra unnecessary conditions for real project)
         # If we always will check date start: it is inconvenient while updating active reminder
 
-        # Always check that date start before date finish
-        if finish < start:
-            raise ValidationError('Date finish has to be grater date start.')
+        # Always check that date start before date finish except 'delete'
+        if new_status != 3:
+            if finish < start:
+                raise ValidationError('Date finish has to be grater date start.')
 
-        # Always check that date finish after current date
+        # Always check that date finish after current date except 'delete'
         # We suppose if we want to change archived reminder we want always change date,
         # if not we should change our logic
-        if finish < now:
-            raise ValidationError('Date finish has to be grater current date.')
+        if new_status != 3:
+            if finish < now:
+                raise ValidationError('Date finish has to be grater current date.')
 
         # When we are creating new Reminder, extra check that date start after current date either
         if self._state.adding:

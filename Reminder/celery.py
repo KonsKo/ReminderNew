@@ -18,15 +18,36 @@ app.conf.broker_url = BASE_REDIS_URL
 app.conf.beat_scheduler = 'django_celery_beat.schedulers.DatabaseScheduler'
 
 app.conf.beat_schedule = {
-    'reminder_every_day_crontab': {
-        'task': 'do_remind',
+    'reminder1': {
+        'task': 'exact_every_hour',
         'schedule': crontab(
-            minute='0',
+            minute='*/43',
             hour='*',
             day_of_week='*',
             day_of_month='*',
             month_of_year='*'
         ),
     },
+    'reminder2': {
+        'task': 'for_day',
+        'schedule': crontab(
+            minute='0',
+            hour='8',
+            day_of_week='*',
+            day_of_month='*',
+            month_of_year='*'
+        ),
+    },
+    'reminder3': {
+        'task': 'check_active',
+        'schedule': crontab(
+            minute='1',
+            hour='0',
+            day_of_week='*',
+            day_of_month='*',
+            month_of_year='*'
+        ),
+    },
 }
+
 
