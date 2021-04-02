@@ -7,6 +7,13 @@ from .models import Reminder, ReminderLog
 now = timezone.now()
 now_plus_hour = now + timezone.timedelta(hours=1)
 
+##########################################################
+
+# There is no realisation of user notification
+# There is just writing process to db
+
+##########################################################
+
 
 # Process reminders with exact time, run every hour
 @shared_task(name='exact_every_hour')

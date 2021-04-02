@@ -21,7 +21,7 @@ app.conf.beat_schedule = {
     'reminder1': {
         'task': 'exact_every_hour',
         'schedule': crontab(
-            minute='*/43',
+            minute='*',
             hour='*',
             day_of_week='*',
             day_of_month='*',
